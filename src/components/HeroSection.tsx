@@ -119,9 +119,8 @@ const HeroSection = () => {
             variants={itemVariants}
             className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl leading-relaxed"
           >
-            Professional auctioneering, asset valuation, debt recovery, and property sales. 
-            Building trust through transparent, efficient, and legally compliant auction services 
-            across Kenya for over two decades.
+            Full-service auctioneering and asset management firm dedicated to delivering 
+            transparent, efficient, and reliable auction and services.
           </motion.p>
 
           {/* CTA Buttons */}
