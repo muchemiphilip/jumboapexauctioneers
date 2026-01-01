@@ -13,7 +13,7 @@ const Footer = () => {
 
   const services = [
     'Property Auction',
-    'Debt Recovery',
+    'Debt Recovery and Repossessions',
     'Asset Valuation',
     'Movable Asset Sales',
     'Liquidation Services',
