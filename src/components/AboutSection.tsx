@@ -40,9 +40,9 @@ const AboutSection = () => {
             About <span className="gold-text">Jumbo Apex</span>
           </h2>
           <p className="text-muted-foreground max-w-3xl mx-auto text-lg">
-            Born from the prestigious Jumbo Airlink legacy and the KENSAP foundation, 
-            Jumbo Apex Auctioneers has grown to become one of Kenya's most respected 
-            auctioneering firms, trusted by individuals and corporations alike.
+            The story of Jumbo Apex Auctioneers is one of legacy, 
+            growth, and innovation — deeply rooted in the pioneering success of its parent firm, 
+            Jumbo Airlink Auctioneers. 
           </p>
         </motion.div>
 
