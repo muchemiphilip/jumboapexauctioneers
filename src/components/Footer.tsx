@@ -17,7 +17,7 @@ const Footer = () => {
     'Asset Valuation',
     'Movable Asset Sales',
     'Liquidation Services',
-    'Storage Yard',
+    'Storage Services',
   ];
 
   return (
