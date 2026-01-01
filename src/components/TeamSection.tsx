@@ -6,7 +6,7 @@ const teamMembers = [
   {
     name: 'Mr. Justus Matundura',
     role: 'Founder & Patron',
-    description: 'Founder of Jumbo Airlink & KENSAP Foundation. A visionary leader who established the foundation for excellence in auctioneering.',
+    description: 'Founder of Jumbo Airlink Auctioneers & Patron of KENSAP Organization. A visionary leader who established the foundation for excellence in auctioneering.',
     image: null,
   },
   {
