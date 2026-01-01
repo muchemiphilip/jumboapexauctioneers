@@ -120,7 +120,7 @@ const HeroSection = () => {
             className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl leading-relaxed"
           >
             Full-service auctioneering and asset management firm dedicated to delivering 
-            transparent, efficient, and reliable auction and services.
+            transparent, efficient, and reliable auction services.
           </motion.p>
 
           {/* CTA Buttons */}
