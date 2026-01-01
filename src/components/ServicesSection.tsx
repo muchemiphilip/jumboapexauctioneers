@@ -6,10 +6,8 @@ import {
   Car, 
   ClipboardCheck, 
   PackageOpen, 
-  Warehouse,
-  ArrowRight
+  Warehouse
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 
 const services = [
   {
@@ -72,15 +70,9 @@ const ServiceCard = ({ service, index }: { service: typeof services[0]; index: n
       </h3>
 
       {/* Description */}
-      <p className="text-muted-foreground mb-6 leading-relaxed">
+      <p className="text-muted-foreground leading-relaxed">
         {service.description}
       </p>
-
-      {/* CTA */}
-      <Button variant="goldOutline" size="sm" className="group/btn">
-        {service.cta}
-        <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
-      </Button>
     </motion.div>
   );
 };
