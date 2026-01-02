@@ -1,4 +1,5 @@
 import { Phone, Mail, MapPin, MessageCircle } from 'lucide-react';
+import logo from '@/assets/logo.jpeg';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -26,14 +27,12 @@ const Footer = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Logo & About */}
           <div className="lg:col-span-1">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-full bg-gold-gradient flex items-center justify-center shadow-lg">
-                <span className="text-forest font-serif font-bold text-xl">JA</span>
-              </div>
-              <div>
-                <h3 className="font-serif font-bold text-lg text-foreground">Jumbo Apex</h3>
-                <p className="text-accent text-xs font-medium tracking-wider uppercase">Auctioneers</p>
-              </div>
+            <div className="mb-6">
+              <img 
+                src={logo} 
+                alt="Jumbo Apex Auctioneers Logo" 
+                className="h-20 w-auto object-contain"
+              />
             </div>
             <p className="text-muted-foreground mb-6 leading-relaxed">
               Kenya's premier auctioneering firm since 1998. Trusted by individuals and corporations 

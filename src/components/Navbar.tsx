@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Menu, X, Phone, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
+import logo from '@/assets/logo.jpeg';
 
 const navLinks = [
   { name: 'Home', href: '#home' },
@@ -49,20 +50,14 @@ const Navbar = () => {
           <motion.a
             href="#home"
             onClick={(e) => { e.preventDefault(); handleNavClick('#home'); }}
-            className="flex items-center gap-3 group"
+            className="flex items-center group"
             whileHover={{ scale: 1.02 }}
           >
-            <div className="w-12 h-12 rounded-full bg-gold-gradient flex items-center justify-center shadow-lg group-hover:shadow-[0_0_20px_hsl(43,74%,58%,0.4)] transition-shadow">
-              <span className="text-forest font-serif font-bold text-xl">JA</span>
-            </div>
-            <div className="hidden sm:block">
-              <h1 className="font-serif font-bold text-lg text-foreground leading-tight">
-                Jumbo Apex
-              </h1>
-              <p className="text-accent text-xs font-medium tracking-wider uppercase">
-                Auctioneers
-              </p>
-            </div>
+            <img 
+              src={logo} 
+              alt="Jumbo Apex Auctioneers Logo" 
+              className="h-14 w-auto object-contain"
+            />
           </motion.a>
 
           {/* Desktop Navigation */}
