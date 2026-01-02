@@ -4,7 +4,7 @@ import { User } from 'lucide-react';
 
 const teamMembers = [
   {
-    name: 'Mr. Justus Matundura',
+    name: 'The Late Justus Matundura',
     role: 'Founder & Patron',
     description: 'Founder of Jumbo Airlink Auctioneers & Patron of KENSAP Organization. A visionary leader who established the foundation for excellence in auctioneering.',
     image: null,
