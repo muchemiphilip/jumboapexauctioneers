@@ -1,4 +1,13 @@
-import { Phone, Mail, MapPin, MessageCircle } from 'lucide-react';
+import {
+  Phone,
+  Mail,
+  MapPin,
+  MessageCircle,
+  Instagram,
+  Facebook,
+  Twitter,
+  Linkedin
+} from 'lucide-react';
 import logo from '@/assets/logo.jpeg';
 
 const Footer = () => {
@@ -25,17 +34,18 @@ const Footer = () => {
     <footer className="bg-secondary/30 border-t border-border/50">
       <div className="container mx-auto px-4 py-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
+
           {/* Logo & About */}
           <div className="lg:col-span-1">
             <div className="mb-6">
-              <img 
-                src={logo} 
-                alt="Jumbo Apex Auctioneers Logo" 
+              <img
+                src={logo}
+                alt="Jumbo Apex Auctioneers Logo"
                 className="h-20 w-auto object-contain"
               />
             </div>
             <p className="text-muted-foreground mb-6 leading-relaxed">
-              Kenya's premier auctioneering firm since 1998. Trusted by individuals and corporations 
+              Kenya's premier auctioneering firm since 1998. Trusted by individuals and corporations
               for transparent, efficient, and legally compliant auction services.
             </p>
             <p className="text-accent font-serif italic text-lg">
@@ -45,7 +55,9 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-serif font-bold text-lg text-foreground mb-6">Quick Links</h4>
+            <h4 className="font-serif font-bold text-lg text-foreground mb-6">
+              Quick Links
+            </h4>
             <ul className="space-y-3">
               {quickLinks.map(link => (
                 <li key={link.name}>
@@ -62,7 +74,9 @@ const Footer = () => {
 
           {/* Services */}
           <div>
-            <h4 className="font-serif font-bold text-lg text-foreground mb-6">Our Services</h4>
+            <h4 className="font-serif font-bold text-lg text-foreground mb-6">
+              Our Services
+            </h4>
             <ul className="space-y-3">
               {services.map(service => (
                 <li key={service}>
@@ -74,37 +88,89 @@ const Footer = () => {
 
           {/* Contact */}
           <div>
-            <h4 className="font-serif font-bold text-lg text-foreground mb-6">Contact Us</h4>
+            <h4 className="font-serif font-bold text-lg text-foreground mb-6">
+              Contact Us
+            </h4>
             <ul className="space-y-4">
               <li>
-                <a href="tel:+254717501864" className="flex items-center gap-3 text-muted-foreground hover:text-accent transition-colors">
+                <a
+                  href="tel:+254717501864"
+                  className="flex items-center gap-3 text-muted-foreground hover:text-accent transition-colors"
+                >
                   <Phone className="w-5 h-5 text-accent" />
                   0717 501 864
                 </a>
               </li>
+
               <li>
-                <a href="mailto:jumboapexauc@yahoo.com" className="flex items-center gap-3 text-muted-foreground hover:text-accent transition-colors">
+                <a
+                  href="mailto:jumboapexauc@yahoo.com"
+                  className="flex items-center gap-3 text-muted-foreground hover:text-accent transition-colors"
+                >
                   <Mail className="w-5 h-5 text-accent" />
                   jumboapexauc@yahoo.com
                 </a>
               </li>
+
               <li className="flex items-start gap-3 text-muted-foreground">
                 <MapPin className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
-                <span>Philadelphia House, 3rd Floor Wing B, Tom Mboya Street, Nairobi</span>
+                <span>
+                  Philadelphia House, 3rd Floor Wing B, Tom Mboya Street, Nairobi
+                </span>
               </li>
+
+              {/* Social Media Icons BELOW WhatsApp */}
               <li>
-                <a
-                  href="https://wa.me/254717501864"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 text-muted-foreground hover:text-[#25D366] transition-colors"
-                >
-                  <MessageCircle className="w-5 h-5 text-[#25D366]" />
-                  WhatsApp Us
-                </a>
+                <div className="flex items-center gap-4 pl-8 pt-2">
+                  <a
+                    href="https://www.facebook.com/jumboapexauctioneers"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Jumbo Apex Auctioneers on Facebook"
+                    className="text-muted-foreground hover:text-blue-600 transition"
+                  >
+                    <Facebook className="w-5 h-5" />
+                  </a>
+
+                  <a
+                    href="https://twitter.com/jumboapex"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Jumbo Apex Auctioneers on X"
+                    className="text-muted-foreground hover:text-black transition"
+                  >
+                    <Twitter className="w-5 h-5" />
+                  </a>
+
+                  <a
+                    href="https://www.linkedin.com/company/jumbo-apex-auctioneers"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Jumbo Apex Auctioneers on LinkedIn"
+                    className="text-muted-foreground hover:text-blue-700 transition"
+                  >
+                    <Linkedin className="w-5 h-5" />
+                  </a>
+
+                  <a
+                    href="https://www.instagram.com/jumboapexauctioneers"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Jumbo Apex Auctioneers on Instagram"
+                    className="text-muted-foreground hover:text-pink-500 transition"
+                  >
+                    <Instagram className="w-5 h-5" />
+                  </a>
+                </div>
+
+                {/* SEO helper text */}
+                <p className="sr-only">
+                  Follow Jumbo Apex Auctioneers on Facebook, X, and LinkedIn.
+                </p>
               </li>
             </ul>
           </div>
+
         </div>
       </div>
 
