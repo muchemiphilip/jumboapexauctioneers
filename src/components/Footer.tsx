@@ -122,7 +122,7 @@ const Footer = () => {
               {/* Social Media Icons BELOW WhatsApp */}
               <li>
                 <div className="flex items-center gap-4 pl-8 pt-2">
-                  <a
+                  {/* <a
                     href="https://www.facebook.com/jumboapexauctioneers"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -130,7 +130,7 @@ const Footer = () => {
                     className="text-muted-foreground hover:text-blue-600 transition"
                   >
                     <Facebook className="w-5 h-5" />
-                  </a>
+                  </a> */}
 
                   <a
                     href="https://twitter.com/jumboapex"
@@ -143,7 +143,7 @@ const Footer = () => {
                   </a>
 
                   <a
-                    href="https://www.linkedin.com/company/jumbo-apex-auctioneers"
+                    href="www.linkedin.com/in/ian-matundura-546a662b1"
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Jumbo Apex Auctioneers on LinkedIn"
@@ -165,7 +165,7 @@ const Footer = () => {
 
                 {/* SEO helper text */}
                 <p className="sr-only">
-                  Follow Jumbo Apex Auctioneers on Facebook, X, and LinkedIn.
+                  Follow Jumbo Apex Auctioneers on Facebook, Instagram, X, and LinkedIn.
                 </p>
               </li>
             </ul>
