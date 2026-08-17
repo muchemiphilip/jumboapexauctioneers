@@ -1,55 +1,20 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { 
-  Building2, 
-  Banknote, 
-  Car, 
-  ClipboardCheck, 
-  PackageOpen, 
-  Warehouse
-} from 'lucide-react';
-
-const services = [
-  {
-    icon: Building2,
-    title: 'Property Auction',
-    description: 'We specialize in the auctioning of residential, commercial, and industrial properties. Our expertly managed auctions ensure competitive bidding and optimal returns for both buyers and sellers.',
-    cta: 'Book Property Auction',
-  },
-  {
-    icon: Banknote,
-    title: 'Debt Recovery & Repossessions',
-    description: 'We partner with financial institutions and corporate clients to facilitate efficient, ethical, and legally sound recovery of assets and collateral.',
-    cta: 'Start Recovery Process',
-  },
-  {
-    icon: Car,
-    title: 'Private Sale / Public Auction of Movable Assets',
-    description: 'From motor vehicles to industrial machinery, we conduct well-organized auctions for movable assets ensuring transparency and fair market value realization.',
-    cta: 'List Movable Asset',
-  },
-  {
-    icon: ClipboardCheck,
-    title: 'Asset Valuation & Appraisal',
-    description: 'We provide accurate, compliant valuations for real estate, vehicles, machinery, and equipment — supporting banks, legal firms, and individual clients.',
-    cta: 'Request Valuation',
-  },
-  {
-    icon: PackageOpen,
-    title: 'Liquidation/Disposal & Estate Sales',
-    description: 'We handle disposal of both movable and immovable assets with professionalism ensuring legal compliance and maximum value.',
-    cta: 'Arrange Liquidation',
-  },
-  {
-    icon: Warehouse,
-    title: 'Storage Yard Services',
-    description: 'Storage available at Pangani Auction Centre (0.256 hectares) with 24/7 CCTV, guarded security, plus option to store repossessed vehicles in approved client yards.',
-    cta: 'Arrange Storage',
-  },
-];
+import { Link } from 'react-router-dom';
+import services from '@/lib/services';
+import placeholder from '@/assets/hero-bg.jpg';
+import React from 'react';
 
 const ServiceCard = ({ service, index }: { service: typeof services[0]; index: number }) => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
+
+  const handleImgError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    const target = e.currentTarget;
+    if (target.src !== placeholder) {
+      target.src = placeholder as unknown as string;
+      target.className = 'w-full h-full object-cover';
+    }
+  };
 
   return (
     <motion.div
@@ -57,22 +22,40 @@ const ServiceCard = ({ service, index }: { service: typeof services[0]; index: n
       initial={{ opacity: 0, y: 40 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6, delay: index * 0.1 }}
-      className="group premium-card p-8 hover:border-accent/50 transition-all duration-500 hover:shadow-[0_0_40px_hsl(43,74%,58%,0.1)]"
+      className="group premium-card p-0 hover:border-accent/50 transition-all duration-500 hover:shadow-[0_0_40px_hsl(43,74%,58%,0.1)] overflow-hidden"
     >
-      {/* Icon */}
-      <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-accent/10 border border-accent/20 mb-6 group-hover:bg-accent group-hover:border-accent transition-all duration-300 group-hover:scale-110">
-        <service.icon className="w-7 h-7 text-accent group-hover:text-accent-foreground transition-colors" />
-      </div>
+      <Link to={`/services/${service.slug}`} className="block h-full">
+        {/* Image */}
+        {service.image && (
+          <div className="relative w-full h-44 md:h-40 lg:h-44 overflow-hidden">
+            <img
+              src={service.image}
+              alt={service.imageAlt || service.title}
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              loading="lazy"
+              onError={handleImgError}
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/25 pointer-events-none" />
+          </div>
+        )}
 
-      {/* Title */}
-      <h3 className="text-xl font-serif font-bold text-foreground mb-4 group-hover:text-accent transition-colors">
-        {service.title}
-      </h3>
+        <div className="p-8">
+          {/* Icon */}
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-accent/10 border border-accent/20 mb-6 group-hover:bg-accent group-hover:border-accent transition-all duration-300 group-hover:scale-110">
+            <service.icon className="w-7 h-7 text-accent group-hover:text-accent-foreground transition-colors" />
+          </div>
 
-      {/* Description */}
-      <p className="text-muted-foreground leading-relaxed">
-        {service.description}
-      </p>
+          {/* Title */}
+          <h3 className="text-xl font-serif font-bold text-foreground mb-4 group-hover:text-accent transition-colors">
+            {service.title}
+          </h3>
+
+          {/* Description */}
+          <p className="text-muted-foreground leading-relaxed">
+            {service.description}
+          </p>
+        </div>
+      </Link>
     </motion.div>
   );
 };
@@ -108,7 +91,7 @@ const ServicesSection = () => {
         {/* Services Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
-            <ServiceCard key={service.title} service={service} index={index} />
+            <ServiceCard key={service.slug} service={service} index={index} />
           ))}
         </div>
       </div>

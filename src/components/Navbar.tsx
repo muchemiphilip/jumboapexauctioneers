@@ -50,13 +50,13 @@ const Navbar = () => {
           <motion.a
             href="#home"
             onClick={(e) => { e.preventDefault(); handleNavClick('#home'); }}
-            className="flex items-center group"
+            className="brand-logo-shell group"
             whileHover={{ scale: 1.02 }}
           >
-            <img 
-              src={logo} 
-              alt="Jumbo Apex Auctioneers Logo" 
-              className="h-14 w-auto object-contain"
+            <img
+              src={logo}
+              alt="Jumbo Apex Auctioneers Logo"
+              className="brand-logo brand-logo--nav"
             />
           </motion.a>
 

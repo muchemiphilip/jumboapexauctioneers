@@ -37,11 +37,11 @@ const Footer = () => {
 
           {/* Logo & About */}
           <div className="lg:col-span-1">
-            <div className="mb-6">
+            <div className="brand-logo-shell mb-6">
               <img
                 src={logo}
                 alt="Jumbo Apex Auctioneers Logo"
-                className="h-20 w-auto object-contain"
+                className="brand-logo brand-logo--footer"
               />
             </div>
             <p className="text-muted-foreground mb-6 leading-relaxed">
