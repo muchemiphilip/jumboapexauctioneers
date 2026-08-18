@@ -11,8 +11,8 @@ const timelineEvents = [
 ];
 
 const values = [
-  { icon: Target, title: 'Mission', description: 'To provide seamless, transparent, and legally compliant auction services that maximize value for our clients while upholding the highest standards of professionalism.' },
-  { icon: Eye, title: 'Vision', description: 'To be Kenya\'s most trusted and innovative auctioneering firm, setting the benchmark for excellence in asset management and recovery services.' },
+  { icon: Target, title: 'Mission', description: 'To deliver exceptional auctioneering and asset management services through integrity, precision, and innovation — ensuring every client experiences reliability they can truly bid on.' },
+  { icon: Eye, title: 'Vision', description: 'To be the most trusted and distinguished auctioneering and valuation firm in the region — setting the gold standard in professionalism, transparency, and client confidence.' },
   { icon: Heart, title: 'Values', description: 'Integrity, Transparency, Professionalism, Client-First Approach, and Continuous Innovation in all our dealings.' },
 ];
 
