@@ -11,10 +11,13 @@ jobs:
   build-and-deploy:
     name: 🏗️ Build and 🚀 Deploy
 
-    # Run on your own Mac
+    # --------------------------------------------------
+    # Self-hosted Mac runner
+    # --------------------------------------------------
     runs-on: self-hosted
 
     steps:
+
       # --------------------------------------------------
       # 1. Checkout source code
       # --------------------------------------------------
@@ -27,63 +30,191 @@ jobs:
       - name: 🟢 Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "24"
           cache: npm
 
       # --------------------------------------------------
-      # 3. Display environment
+      # 3. Display build environment
       # --------------------------------------------------
-      - name: 🔎 Check environment
+      - name: 🔎 Check build environment
+        shell: bash
         run: |
-          echo "Runner OS: $(uname -s)"
-          echo "Architecture: $(uname -m)"
-          echo "Node: $(node --version)"
-          echo "NPM: $(npm --version)"
-          echo "Working directory: $(pwd)"
+          set -e
+
+          echo "=========================================="
+          echo "Build Environment"
+          echo "=========================================="
+
+          echo "Operating System:"
+          uname -s
+
+          echo "Architecture:"
+          uname -m
+
+          echo "Node.js:"
+          node --version
+
+          echo "npm:"
+          npm --version
+
+          echo "Working directory:"
+          pwd
+
+          echo "=========================================="
 
       # --------------------------------------------------
       # 4. Install dependencies
       # --------------------------------------------------
       - name: 📦 Install dependencies
-        run: npm ci
+        shell: bash
+        run: |
+          set -e
+
+          echo "Installing npm dependencies..."
+
+          npm ci
+
+          echo "✅ Dependencies installed successfully."
 
       # --------------------------------------------------
       # 5. Build Vite application
       # --------------------------------------------------
       - name: 🔨 Build Vite application
-        run: npm run build
+        shell: bash
         env:
           CI: false
+        run: |
+          set -e
+
+          echo "=========================================="
+          echo "Building Vite application"
+          echo "=========================================="
+
+          npm run build
+
+          echo "=========================================="
+          echo "✅ Vite build completed"
+          echo "=========================================="
 
       # --------------------------------------------------
-      # 6. Verify Vite build
+      # 6. Verify Vite build output
       # --------------------------------------------------
       - name: 🔍 Verify build output
+        shell: bash
         run: |
+          set -e
+
           echo "Checking Vite build output..."
 
+          # Verify dist directory exists
           if [ ! -d "dist" ]; then
             echo "❌ ERROR: dist directory was not created."
             exit 1
           fi
 
+          # Verify index.html exists
           if [ ! -f "dist/index.html" ]; then
             echo "❌ ERROR: dist/index.html was not created."
             exit 1
           fi
 
-          echo "✅ Vite build successful."
+          echo "✅ dist directory exists."
+          echo "✅ dist/index.html exists."
+
           echo ""
           echo "Contents of dist/:"
-
           find dist -maxdepth 2 -type f | sort
 
           echo ""
           echo "Build size:"
           du -sh dist
 
+          echo ""
+          echo "✅ Build verification successful."
+
       # --------------------------------------------------
-      # 7. Deploy to cPanel
+      # 7. Preflight: Validate FTP deployment directory
+      # --------------------------------------------------
+      - name: 🛡️ Validate FTP deployment directory
+        shell: bash
+        env:
+          FTP_SERVER_DIR: ${{ secrets.FTP_SERVER_DIR }}
+        run: |
+          set -euo pipefail
+
+          EXPECTED_DIR="/home2/jumboape/public_html/"
+
+          echo "=========================================="
+          echo "FTP Deployment Preflight"
+          echo "=========================================="
+
+          # Ensure secret exists
+          if [ -z "${FTP_SERVER_DIR}" ]; then
+            echo "❌ ERROR: FTP_SERVER_DIR secret is not configured."
+            exit 1
+          fi
+
+          # Ensure exact expected directory
+          if [ "${FTP_SERVER_DIR}" != "${EXPECTED_DIR}" ]; then
+            echo "❌ ERROR: FTP_SERVER_DIR is not the expected deployment directory."
+            echo "Expected: /home2/jumboape/public_html/"
+            echo "Received: [REDACTED]"
+            exit 1
+          fi
+
+          # Explicitly verify trailing slash
+          if [[ "${FTP_SERVER_DIR}" != */ ]]; then
+            echo "❌ ERROR: FTP_SERVER_DIR must end with '/'."
+            exit 1
+          fi
+
+          echo "✅ FTP_SERVER_DIR is configured correctly."
+          echo "✅ Deployment target: /home2/jumboape/public_html/"
+          echo "=========================================="
+
+      # --------------------------------------------------
+      # 8. Validate required FTP secrets exist
+      # --------------------------------------------------
+      - name: 🔐 Validate FTP configuration
+        shell: bash
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_SERVER_DIR: ${{ secrets.FTP_SERVER_DIR }}
+        run: |
+          set -euo pipefail
+
+          echo "Checking FTP configuration..."
+
+          if [ -z "${FTP_HOST}" ]; then
+            echo "❌ ERROR: FTP_HOST secret is missing."
+            exit 1
+          fi
+
+          if [ -z "${FTP_USERNAME}" ]; then
+            echo "❌ ERROR: FTP_USERNAME secret is missing."
+            exit 1
+          fi
+
+          if [ -z "${FTP_PASSWORD}" ]; then
+            echo "❌ ERROR: FTP_PASSWORD secret is missing."
+            exit 1
+          fi
+
+          if [ -z "${FTP_SERVER_DIR}" ]; then
+            echo "❌ ERROR: FTP_SERVER_DIR secret is missing."
+            exit 1
+          fi
+
+          echo "✅ FTP configuration is present."
+          echo "FTP host: ${FTP_HOST}"
+          echo "FTP username: ${FTP_USERNAME}"
+          echo "FTP password: [REDACTED]"
+          echo "FTP directory: [REDACTED]"
+
+      # --------------------------------------------------
+      # 9. Deploy dist to cPanel
       # --------------------------------------------------
       - name: 🚀 Deploy dist to cPanel
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
@@ -92,12 +223,17 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
 
+          # Vite production build
           local-dir: ./dist/
+
+          # Exact cPanel destination
           server-dir: ${{ secrets.FTP_SERVER_DIR }}
 
+          # Standard FTP
           protocol: ftp
           port: 21
 
+          # Don't upload unnecessary files
           exclude: |
             **/.git*
             **/.git*/**
