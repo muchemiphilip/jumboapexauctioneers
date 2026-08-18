@@ -1,4 +1,4 @@
-name: Build and Deploy Vite to cPanel
+name: 🚀 Deploy Jumbo Apex to cPanel
 
 on:
   push:
@@ -9,42 +9,97 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: [self-hosted, macOS]
+    name: 🏗️ Build and 🚀 Deploy
+
+    # Run on your own Mac
+    runs-on: self-hosted
 
     steps:
-      - name: Checkout repository
+      # --------------------------------------------------
+      # 1. Checkout source code
+      # --------------------------------------------------
+      - name: 📥 Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      # --------------------------------------------------
+      # 2. Setup Node.js
+      # --------------------------------------------------
+      - name: 🟢 Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: "20"
           cache: npm
 
-      - name: Install dependencies
+      # --------------------------------------------------
+      # 3. Display environment
+      # --------------------------------------------------
+      - name: 🔎 Check environment
+        run: |
+          echo "Runner OS: $(uname -s)"
+          echo "Architecture: $(uname -m)"
+          echo "Node: $(node --version)"
+          echo "NPM: $(npm --version)"
+          echo "Working directory: $(pwd)"
+
+      # --------------------------------------------------
+      # 4. Install dependencies
+      # --------------------------------------------------
+      - name: 📦 Install dependencies
         run: npm ci
 
-      - name: Build Vite application
+      # --------------------------------------------------
+      # 5. Build Vite application
+      # --------------------------------------------------
+      - name: 🔨 Build Vite application
         run: npm run build
+        env:
+          CI: false
 
-      - name: Verify dist directory
+      # --------------------------------------------------
+      # 6. Verify Vite build
+      # --------------------------------------------------
+      - name: 🔍 Verify build output
         run: |
+          echo "Checking Vite build output..."
+
           if [ ! -d "dist" ]; then
-            echo "ERROR: dist directory was not created"
+            echo "❌ ERROR: dist directory was not created."
             exit 1
           fi
 
-          echo "Build successful."
+          if [ ! -f "dist/index.html" ]; then
+            echo "❌ ERROR: dist/index.html was not created."
+            exit 1
+          fi
+
+          echo "✅ Vite build successful."
+          echo ""
+          echo "Contents of dist/:"
+
+          find dist -maxdepth 2 -type f | sort
+
+          echo ""
+          echo "Build size:"
           du -sh dist
-          find dist -maxdepth 2 -type f | head -50
 
-      - name: Deploy dist to cPanel
-        run: |
-          echo "Deploying Vite dist/ to cPanel..."
+      # --------------------------------------------------
+      # 7. Deploy to cPanel
+      # --------------------------------------------------
+      - name: 🚀 Deploy dist to cPanel
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
 
-          rsync -avz --delete \
-            -e "ssh -p ${{ secrets.CPANEL_PORT }} -o StrictHostKeyChecking=no" \
-            dist/ \
-            "${{ secrets.CPANEL_USER }}@${{ secrets.CPANEL_HOST }}:${{ secrets.CPANEL_PATH }}/"
+          local-dir: ./dist/
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}
 
-          echo "Deployment completed successfully."
+          protocol: ftp
+          port: 21
+
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/.DS_Store
