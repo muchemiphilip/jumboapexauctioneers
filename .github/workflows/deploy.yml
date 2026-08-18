@@ -1,4 +1,4 @@
-name: 🚀 Build and Deploy to cPanel
+name: 🚀 Deploy Jumbo Apex to cPanel
 
 on:
   push:
@@ -9,14 +9,14 @@ on:
 
 jobs:
   build-and-deploy:
-    name: 🏗️ Build & 🚀 Deploy
+    name: 🏗️ Build and 🚀 Deploy
     runs-on: ubuntu-latest
 
     steps:
       # --------------------------------------------------
       # 1. Checkout source code
       # --------------------------------------------------
-      - name: 🚚 Checkout repository
+      - name: 📥 Checkout repository
         uses: actions/checkout@v4
 
       # --------------------------------------------------
@@ -37,41 +37,54 @@ jobs:
       # --------------------------------------------------
       # 4. Build Vite application
       # --------------------------------------------------
-      - name: 🔨 Build application
+      - name: 🔨 Build Vite application
         run: npm run build
         env:
           CI: false
 
       # --------------------------------------------------
-      # 5. Verify build output
+      # 5. Verify Vite build
       # --------------------------------------------------
-      - name: 🔍 Verify build
+      - name: 🔍 Verify build output
         run: |
-          echo "Build completed successfully."
+          echo "Checking Vite build output..."
+          
+          if [ ! -d "dist" ]; then
+            echo "❌ ERROR: dist directory was not created."
+            exit 1
+          fi
+
+          if [ ! -f "dist/index.html" ]; then
+            echo "❌ ERROR: dist/index.html was not created."
+            exit 1
+          fi
+
+          echo "✅ Vite build successful."
+          echo ""
           echo "Contents of dist/:"
-          ls -lah dist/
+          find dist -maxdepth 2 -type f | sort
 
       # --------------------------------------------------
-      # 6. Deploy dist/ to cPanel
+      # 6. Deploy to cPanel
       # --------------------------------------------------
-      - name: 🚀 Deploy to cPanel via FTP
+      - name: 🚀 Deploy dist to cPanel
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
 
-          # Vite production output
+          # Vite production build
           local-dir: ./dist/
 
           # cPanel destination
           server-dir: ${{ secrets.FTP_SERVER_DIR }}
 
-          # Deployment settings
+          # Standard FTP
           protocol: ftp
           port: 21
 
-          # Prevent unnecessary files
+          # Don't upload unnecessary files
           exclude: |
             **/.git*
             **/.git*/**
